@@ -1,0 +1,32 @@
+{
+  "name": "mhoc-speakership",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lily-irl/mhoc-speakership.git"
+  },
+  "author": "Lily Hail (/u/lily-irl)",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/lily-irl/mhoc-speakership/issues"
+  },
+  "homepage": "https://github.com/lily-irl/mhoc-speakership#readme",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "dompurify": "^3.1.6",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "jsonwebtoken": "^9.0.2",
+    "marked": "^13.0.2",
+    "mysql2": "^3.10.3",
+    "pug": "^3.0.3",
+    "snoowrap": "^1.23.0"
+  }
+}
