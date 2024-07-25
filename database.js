@@ -59,7 +59,7 @@ const text = `
 > (b) becomes an executive member or a non-executive member of British Rail,
 
 they may, if the Secretary of State so determines, be treated for the purposes of the pension scheme as if their service as a member of British Rail were service as an employee of British Rail.`
-    callback(null, [{id: 'B001', title: 'Railways Bill', author: 'lily-irl', stage: 'amendment_vote', text: text, last_is_submitted: true }])
+    callback(null, [{id: 'B001', title: 'Railways Bill', stage: 'second_reading', text: text, last_is_submitted: false }])
 }
 
 database.end = function () {

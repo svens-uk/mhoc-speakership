@@ -5,7 +5,7 @@ const app = express()
 const PORT = process.env.PORT || 3400
 
 const database = require('./database')
-//const api = require('./routes/api')
+const api = require('./routes/api')
 const auth = require('./routes/auth')
 const bills = require('./routes/bills')
 
@@ -34,19 +34,10 @@ app.use(auth.authenticator)
 
 app.use('/', auth.router)
 app.use('/bills', bills)
+app.use('/api', api)
 
 app.get('/', (req, res) => {
     res.render('index')
-})
-
-// temp view access
-
-app.get('/first-reading', (req, res) => {
-    res.render('first-reading')
-})
-
-app.get('/second-reading', (req, res) => {
-    res.render('second-reading')
 })
 
 app.listen(PORT, () => console.log('listening on ' + PORT))

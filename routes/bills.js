@@ -5,6 +5,10 @@ const database = require('../database')
 
 const STAGES = require('../models/bill_stages')
 
+router.get('/new', (req, res) => {
+    return res.render('1st_reading', { stage: STAGES['first_reading'] })
+})
+
 router.get('/:id', (req, res) => {
     const id = req.params.id
 

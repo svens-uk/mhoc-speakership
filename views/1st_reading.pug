@@ -1,0 +1,45 @@
+extends layout 
+
+block content
+    .container-sm.mt-3
+        h1 New Bill
+        div(hidden=true)
+            textarea(disabled=true)#format-text= stage.format
+        div(hidden=true)
+            input(disabled=true, value='BST')#timezone
+        .row.g-4
+            .col-6
+                form(action='/api/bill/submit', method='POST')
+                    div.mb-3
+                        label(for='bill-num').form-label Bill number
+                        input(type='text', id='bill-num', name='bill-num').form-control
+                        div.form-text Do not include '.2', '.A', etc.
+                    div.mb-3
+                        label(for='bill-title').form-label Bill title
+                        input(type='text', id='bill-title', name='bill-title').form-control
+                        div.form-text Only include the short title, e.g. 'Railways Bill'
+                    div.mb-3(hidden=true)
+                        label(for='bill-stage').form-label Stage
+                        input(type='text', id='bill-stage', name='bill-stage', value=stage.key, disabled=true).form-control
+                    div.mb-3
+                        label(for='bill-text').form-label Bill text
+                        textarea(id='bill-text', name='bill-text', rows=6).form-control
+                        div.form-text Include only the Bill text and author citation in markdown format, excluding 'Order, order!', opening speeches, and closing dates
+                        div.invalid-feedback This post is too long for reddit. Please move the Bill text into a speakership copy of a Google doc or similar
+                    div.mb-3
+                        label(for='opening-speech').form-label Opening speech
+                        textarea(id='opening-speech', name='opening-speech', rows=6).form-control
+                        div.form-text Bills #[strong must] include an opening speech to be scheduled
+                    div.mb-3.form-check
+                        input(type='checkbox', name='disable-post')#disable-post.form-check-input
+                        label(for='disable-post').form-check-label Do #[strong not] post this stage to reddit
+                        div.invalid-feedback Bill stages should ordinarily be posted to reddit. Ensure you have a good reason to skip this or post it to reddit manually
+                    button(type='submit').btn.btn-danger Post this stage
+            .col-6.h-100
+                h5 Markdown preview #[small.text-body-secondary.text-decoration-underline (please ensure the formatting is sane)]
+                .alert.alert-secondary
+                    #preview
+
+    script(src='/js/marked/marked.min.js')
+    script(src='/js/dompurify/purify.min.js')
+    script(src='/js/preview.js')

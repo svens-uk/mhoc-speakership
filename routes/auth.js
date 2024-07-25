@@ -6,8 +6,8 @@ const axios = require('axios')
 const { TOKEN_SECRET, OAUTH, REDDIT } = require('../credentials.json')
 const AUTHORISED_USERS = require('../users.json')
 
-function generateToken(username) {
-    return jwt.sign({ data: username }, TOKEN_SECRET, { expiresIn: '1800s' })
+function generateToken(username, access_token) {
+    return jwt.sign({ data: username, token: access_token }, TOKEN_SECRET, { expiresIn: '1800s' })
 }
 
 function authenticateToken(req, res, next) {
@@ -58,7 +58,7 @@ router.get('/callback', (req, res) => {
                 }
             }).then(user => {
                 if (AUTHORISED_USERS.includes(user.data.name)) {
-                    const token = generateToken(user.data.name)
+                    const token = generateToken(user.data.name, auth_response.data.access_token)
                     req.session.token = token
                     return res.redirect('/')
                 }
