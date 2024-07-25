@@ -42,6 +42,7 @@ router.get('/:id', (req, res) => {
             return res.render('error', { error: 'There were no bills found with the id ' + id })
 
         const bill = results[0]
+        bill.last_is_submitted = bill.last_is_submitted === '1' // required for html attribute to render properly
         const stage = STAGES[bill.stage]
         const progress = []
         let closingDate = new Date()

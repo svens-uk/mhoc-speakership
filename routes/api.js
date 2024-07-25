@@ -68,14 +68,16 @@ router.post('/bill/submit', (req, res) => {
                 accessToken: req.user.token
             })
 
-            const billList = r.getSubreddit('lilyirl').getWikiPage('bills/term_' + CREDENTIALS.TERM).content_md
-
-            Promise.all([
-                r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}`).edit({ text: billList + `\n* [${id} — ${title}](https://reddit.com/r/lilyirl/wiki/bills/term_${CREDENTIALS.TERM}/${id})`}),
-                r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}`).edit({ text: WIKI_INDEX_FORMAT.replace('1st Reading', `[1st Reading](https://reddit.com/r/lilyirl/wiki/bills/term_${CREDENTIALS.TERM}/${id}/first_reading)`) }),
-                r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}/first_reading`).edit({ text: renderText(WIKI_POST_FORMAT, { bill_title: title, bill_text: text, opening_speech: opening_speech }) })
-            ]).then(success => {
-                return res.redirect('/bills')
+            r.getSubreddit('lilyirl').getWikiPage('bills/term_' + CREDENTIALS.TERM).content_md.then(billList => {
+                Promise.all([
+                    r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}`).edit({ text: billList + `\n* [${id} — ${title}](https://reddit.com/r/lilyirl/wiki/bills/term_${CREDENTIALS.TERM}/${id})`}),
+                    r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}`).edit({ text: WIKI_INDEX_FORMAT.replace('1st Reading', `[1st Reading](https://reddit.com/r/lilyirl/wiki/bills/term_${CREDENTIALS.TERM}/${id}/first_reading)`) }),
+                    r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}/first_reading`).edit({ text: renderText(WIKI_POST_FORMAT, { bill_title: title, bill_text: text, opening_speech: opening_speech }) })
+                ]).then(success => {
+                    return res.redirect('/bills')
+                }).catch(error => {
+                    return res.render('error', { error: error })
+                })
             }).catch(error => {
                 return res.render('error', { error: error })
             })
