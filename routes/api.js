@@ -80,13 +80,9 @@ router.post('/bill/submit', (req, res) => {
                                 title: 'First Reading',
                                 description: `**Order!** The following Bill was read the first time and ordered to be printed:\n\n[${id} — ${title}](https://reddit.com/r/lilyirl/wiki/bills/term_${CREDENTIALS.TERM}/${id})`,
                                 type: 'rich',
-                                color: '0x006e46'
+                                color: 0x006e46
                             }
                         ]
-                    }, {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
                     })
                     return res.redirect('/bills')
                 }).catch(error => {
