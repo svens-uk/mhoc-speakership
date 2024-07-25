@@ -1,69 +1,65 @@
 extends layout 
 
 block content
-    .container-sm.mt-3
-        h1 #{bill.id} at #{stage.title}
-        div(hidden=true)
-            textarea(disabled=true)#format-text= stage.format
-        div(hidden=true)
-            input(disabled=true, value='BST')#timezone
-        .row.g-4
-            .col-6
-                form(action='/api/bill/submit', method='POST')
+    h1 #{bill.id} at #{stage.title}
+    div(hidden=true)
+        textarea(readonly=true)#format-text= stage.format
+    div(hidden=true)
+        input(readonly=true, value='BST')#timezone
+    .row.g-4
+        .col-6
+            form(action='/api/bill/submit', method='POST')
+                div.mb-3
+                    label(for='bill-num').form-label Bill number
+                    input(type='text', id='bill-num', name='bill-num', value=bill.id, readonly=true).form-control
+                    div.form-text Do not include '.2', '.A', etc.
+                div.mb-3
+                    label(for='bill-title').form-label Bill title
+                    input(type='text', id='bill-title', name='bill-title', value=bill.title, readonly=bill.last_is_submitted).form-control
+                    div.form-text Only include the short title, e.g. 'Railways Bill'
+                input(type='hidden', id='bill-stage', name='bill-stage', value=stage.key, readonly=true).form-control
+                if stage.key === 'amendment_vote'
                     div.mb-3
-                        label(for='bill-num').form-label Bill number
-                        input(type='text', id='bill-num', name='bill-num', value=bill.id, disabled=true).form-control
-                        div.form-text Do not include '.2', '.A', etc.
-                    div.mb-3
-                        label(for='bill-title').form-label Bill title
-                        input(type='text', id='bill-title', name='bill-title', value=bill.title, disabled=bill.last_is_submitted).form-control
-                        div.form-text Only include the short title, e.g. 'Railways Bill'
-                    div.mb-3(hidden=true)
-                        label(for='bill-stage').form-label Stage
-                        input(type='text', id='bill-stage', name='bill-stage', value=stage.key, disabled=true).form-control
-                    if stage.key === 'amendment_vote'
-                        div.mb-3
-                            label(for='amendment-text').form-label Amendments moved
-                            textarea(id='amendment-text', name='amendment-text', rows=6, disabled=bill.last_is_submitted).form-control
-                            div.form-text The amendments with numbers and authors - see preview
-                    div.mb-3
-                        label(for='bill-text').form-label Bill text
-                        textarea(id='bill-text', name='bill-text', rows=6, disabled=bill.last_is_submitted).form-control= bill.text
-                        div.form-text Include only the Bill text and author citation in markdown format, excluding 'Order, order!', opening speeches, and closing dates
-                        div.invalid-feedback This post is too long for reddit. Please move the Bill text into a speakership copy of a Google doc or similar
-                    div.mb-3
-                        label(for='opening-speech').form-label Opening speech
-                        textarea(id='opening-speech', name='opening-speech', rows=6, disabled=bill.last_is_submitted).form-control= bill.opening_speech
-                        div.form-text Bills #[strong must] include an opening speech to be scheduled
-                    div.mb-3
-                        label(for='closing-date').form-label Closing date
-                        input(type='text', id='closing-date', name='closing-date', value=closing_date, disabled=bill.last_is_submitted).form-control
-                        div.form-text Do not include 10pm, this will be added automatically
-                    div.mb-3.form-check
-                        input(type='checkbox', name='disable-post')#disable-post.form-check-input
-                        label(for='disable-post').form-check-label Do #[strong not] post this stage to reddit
-                        div.invalid-feedback Bill stages should ordinarily be posted to reddit. Ensure you have a good reason to skip this or post it to reddit manually
-                    if bill.last_is_submitted
-                        button(type='submit', disabled=true).btn.btn-danger Post to reddit
-                        div.form-text This Bill's #{stage.title} has already been posted to reddit. #[a(href='#advance') See options]
-                    else
-                        button(type='submit').btn.btn-danger Post this stage
-            .col-6.h-100
-                h5 Markdown preview #[small.text-body-secondary.text-decoration-underline (please ensure the formatting is sane)]
-                .alert.alert-secondary
-                    #preview
-        if bill.last_is_submitted && progress.length > 0
-            #advance
-                a(name='advance')
-                h2 Choose how to advance this bill
-                form(action='/api/bill/progress', method='POST')
-                    div.mb-3(hidden=true)
-                        input(type='text', id='bill-num', name='bill-num', value=bill.id, readonly=true)
-                    each next_stage in progress
-                        div.form-check
-                            input(type='radio', name='next-stage', id=next_stage.key).form-check-input
-                            label(for=next_stage.key).form-check-label= next_stage.title
-                    button(type='submit').btn.btn-primary Proceed to next stage
+                        label(for='amendment-text').form-label Amendments moved
+                        textarea(id='amendment-text', name='amendment-text', rows=6, readonly=bill.last_is_submitted).form-control
+                        div.form-text The amendments with numbers and authors - see preview
+                div.mb-3
+                    label(for='bill-text').form-label Bill text
+                    textarea(id='bill-text', name='bill-text', rows=6, readonly=bill.last_is_submitted).form-control= bill.text
+                    div.form-text Include only the Bill text and author citation in markdown format, excluding 'Order, order!', opening speeches, and closing dates
+                    div.invalid-feedback This post is too long for reddit. Please move the Bill text into a speakership copy of a Google doc or similar
+                div.mb-3
+                    label(for='opening-speech').form-label Opening speech
+                    textarea(id='opening-speech', name='opening-speech', rows=6, readonly=bill.last_is_submitted).form-control= bill.opening_speech
+                    div.form-text Bills #[strong must] include an opening speech to be scheduled
+                div.mb-3
+                    label(for='closing-date').form-label Closing date
+                    input(type='text', id='closing-date', name='closing-date', value=closing_date, readonly=bill.last_is_submitted).form-control
+                    div.form-text Do not include 10pm, this will be added automatically
+                div.mb-3.form-check
+                    input(type='checkbox', name='disable-post')#disable-post.form-check-input
+                    label(for='disable-post').form-check-label Do #[strong not] post this stage to reddit
+                    div.invalid-feedback Bill stages should ordinarily be posted to reddit. Ensure you have a good reason to skip this or post it to reddit manually
+                if bill.last_is_submitted
+                    button(type='submit', readonly=true).btn.btn-danger Post to reddit
+                    div.form-text This Bill's #{stage.title} has already been posted to reddit. #[a(href='#advance') See options]
+                else
+                    button(type='submit').btn.btn-danger Post this stage
+        .col-6.h-100
+            h5 Markdown preview #[small.text-body-secondary.text-decoration-underline (please ensure the formatting is sane)]
+            .alert.alert-secondary
+                #preview
+    if bill.last_is_submitted && progress.length > 0
+        #advance
+            a(name='advance')
+            h2 Choose how to advance this bill
+            form(action='/api/bill/progress', method='POST')
+                input(type='hidden', id='bill-num', name='bill-num', value=bill.id, readonly=true)
+                each next_stage in progress
+                    div.form-check
+                        input(type='radio', name='next-stage', id=next_stage.key).form-check-input
+                        label(for=next_stage.key).form-check-label= next_stage.title
+                button(type='submit').btn.btn-primary Proceed to next stage
 
     script(src='/js/marked/marked.min.js')
     script(src='/js/dompurify/purify.min.js')

@@ -5,6 +5,24 @@ const database = require('../database')
 
 const STAGES = require('../models/bill_stages')
 
+router.get('/', (req, res) => {
+    database.query('SELECT id, title, stage FROM bills', [], (err, results) => {
+        if (err) return res.render('error', { error: err })
+
+        const bills = []
+
+        for (let result of results) {
+            bills.push({
+                id: result.id,
+                title: result.title,
+                stage_name: STAGES[result.stage].title
+            })
+        }
+
+        return res.render('bills', { bills: bills })
+    })
+})
+
 router.get('/new', (req, res) => {
     return res.render('1st_reading', { stage: STAGES['first_reading'] })
 })

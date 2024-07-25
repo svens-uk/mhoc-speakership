@@ -11,8 +11,7 @@ function generateToken(username, access_token) {
 }
 
 function authenticateToken(req, res, next) {
-    next()
-    /*const EXCLUDED_ROUTES = ['/', '/login', '/callback']
+    const EXCLUDED_ROUTES = ['/', '/login', '/callback']
 
     if (EXCLUDED_ROUTES.includes(req.path))
         return next()
@@ -25,7 +24,7 @@ function authenticateToken(req, res, next) {
         if (err) return res.redirect('/login')
         req.user = user
         next()
-    })*/
+    })
 }
 
 router.get('/login', (req, res) => {

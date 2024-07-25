@@ -4,6 +4,10 @@ block content
     .container
         h1.display-1.text-center MHoC Speakership Website
     
-    .container.d-flex.justify-content-center.mt-5
-        a(href='/search').btn.btn-primary Current business
-        a(href='/search').btn.btn-primary Add new legislation
+    .container.text-center.mt-5
+        .row.mb-3
+            .col
+                a(href='/bills').btn.btn-primary Current business
+        .row
+            .col
+                a(href='/bills/new').btn.btn-primary Add new legislation

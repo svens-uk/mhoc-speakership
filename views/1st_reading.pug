@@ -18,9 +18,7 @@ block content
                         label(for='bill-title').form-label Bill title
                         input(type='text', id='bill-title', name='bill-title').form-control
                         div.form-text Only include the short title, e.g. 'Railways Bill'
-                    div.mb-3(hidden=true)
-                        label(for='bill-stage').form-label Stage
-                        input(type='text', id='bill-stage', name='bill-stage', value=stage.key, disabled=true).form-control
+                    input(type='hidden', id='bill-stage', name='bill-stage', value=stage.key).form-control
                     div.mb-3
                         label(for='bill-text').form-label Bill text
                         textarea(id='bill-text', name='bill-text', rows=6).form-control
