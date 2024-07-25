@@ -57,7 +57,7 @@ block content
                 input(type='hidden', id='bill-num', name='bill-num', value=bill.id, readonly=true)
                 each next_stage in progress
                     div.form-check
-                        input(type='radio', name='next-stage', id=next_stage.key).form-check-input
+                        input(type='radio', name='next-stage', id=next_stage.key, value=next_stage.key).form-check-input
                         label(for=next_stage.key).form-check-label= next_stage.title
                 button(type='submit').btn.btn-primary Proceed to next stage
 

@@ -56,7 +56,7 @@ router.post('/bill/submit', (req, res) => {
 
     if (stage.key === STAGES['first_reading'].key) {
         database.query('INSERT INTO bills (id, title, stage, text, opening_speech, last_is_submitted) VALUES (?, ?, ?, ?, ?, ?)',
-        [id, title, stage, text, opening_speech, true],
+        [id, title, stage.key, text, opening_speech, true],
         (err, results) => {
             if (err)
                 return res.render('error', { error: err })
