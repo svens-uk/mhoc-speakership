@@ -38,7 +38,7 @@ const WIKI_POST_FORMAT = `
 const WIKI_INDEX_FORMAT = `
 * 1st Reading (as introduced)
 * 2nd Reading
-* Committee
+* Committee Stage
 * Amendment Reading
 * 3rd Reading`
 
@@ -74,6 +74,20 @@ router.post('/bill/submit', (req, res) => {
                     r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}`).edit({ text: WIKI_INDEX_FORMAT.replace('1st Reading', `[1st Reading](https://reddit.com/r/lilyirl/wiki/bills/term_${CREDENTIALS.TERM}/${id}/first_reading)`) }),
                     r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}/first_reading`).edit({ text: renderText(WIKI_POST_FORMAT, { bill_title: title, bill_text: text, opening_speech: opening_speech }) })
                 ]).then(success => {
+                    axios.post(CREDENTIALS.DISCORD.ENDPOINT, {
+                        embeds: [
+                            {
+                                title: 'First Reading',
+                                description: `**Order!** The following Bill was read the first time and ordered to be printed:\n\n[${id} — ${title}](https://reddit.com/r/lilyirl/wiki/bills/term_${CREDENTIALS.TERM}/${id})`,
+                                type: 'rich',
+                                color: '0x006e46'
+                            }
+                        ]
+                    }, {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
                     return res.redirect('/bills')
                 }).catch(error => {
                     return res.render('error', { error: error })
@@ -110,8 +124,10 @@ router.post('/bill/submit', (req, res) => {
             r.getSubreddit(stage.post_to).submitSelfpost({ title: post_title, text: post_body })
 
             if (wiki_post_at.includes(stage.key)) {
-                r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}`).edit({ text: WIKI_INDEX_FORMAT.replace(stage.title, `[${stage.title}](https://reddit.com/r/lilyirl/wiki/bills/term_${CREDENTIALS.TERM}/${id}/${stage.key})`) }),
+                r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}`).content_md.then(existing_index => {
+                    r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}`).edit({ text: existing_index.replace(stage.title, `[${stage.title}](https://reddit.com/r/lilyirl/wiki/bills/term_${CREDENTIALS.TERM}/${id}/${stage.key})`) }),
                 r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}/${stage.key}`).edit({ text: renderText(WIKI_POST_FORMAT, { bill_title: title, bill_text: text, opening_speech: opening_speech }) })
+                })
             }
 
             if (stage.final) {
