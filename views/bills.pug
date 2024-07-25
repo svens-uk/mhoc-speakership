@@ -4,4 +4,7 @@ block content
     h1 Bills before the House
     ul
         each bill in bills
-            li #[a(href='/bills/' + bill.id)= bill.id + ' - ' + bill.title + ' @ ' + bill.stage_name]
+            if bill.submitted
+                li #[span.badge.text-bg-secondary Posted] #[a(href='/bills/' + bill.id)= bill.id + ' - ' + bill.title + ' @ ' + bill.stage_name]
+            else 
+                li #[span.badge.text-bg-success Ready] #[a(href='/bills/' + bill.id)= bill.id + ' - ' + bill.title + ' @ ' + bill.stage_name]

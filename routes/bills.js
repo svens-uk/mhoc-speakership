@@ -6,7 +6,7 @@ const database = require('../database')
 const STAGES = require('../models/bill_stages')
 
 router.get('/', (req, res) => {
-    database.query('SELECT id, title, stage FROM bills', [], (err, results) => {
+    database.query('SELECT id, title, stage, last_is_submitted FROM bills', [], (err, results) => {
         if (err) return res.render('error', { error: err })
 
         const bills = []
@@ -15,7 +15,8 @@ router.get('/', (req, res) => {
             bills.push({
                 id: result.id,
                 title: result.title,
-                stage_name: STAGES[result.stage].title
+                stage_name: STAGES[result.stage].title,
+                submitted: result.last_is_submitted
             })
         }
 
