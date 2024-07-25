@@ -58,7 +58,7 @@ router.post('/bill/submit', (req, res) => {
                 accessToken: req.user.token
             })
 
-            r.getSubreddit('lilyirl').getWikiPage(`bills/term_1/${id}/1st_reading`).edit({ text: formatText(WIKI_FORMAT, { bill_title: title, bill_text: text, opening_speech: opening_speech }) })
+            r.getSubreddit('lilyirl').getWikiPage(`bills/term_1/${id}/1st_reading`).edit({ text: renderText(WIKI_FORMAT, { bill_title: title, bill_text: text, opening_speech: opening_speech }) })
         })
     }
 })
