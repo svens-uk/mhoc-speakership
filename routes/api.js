@@ -55,8 +55,8 @@ router.post('/bill/submit', (req, res) => {
     const wiki_post_at = ['first_reading', 'second_reading', 'committee', 'amendment_reading', 'third_reading']
 
     if (stage.key === STAGES['first_reading'].key) {
-        database.query('INSERT INTO bills VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-        [id, title, stage, text, opening_speech, null, null, true],
+        database.query('INSERT INTO bills (id, title, stage, text, opening_speech, last_is_submitted) VALUES (?, ?, ?, ?, ?, ?)',
+        [id, title, stage, text, opening_speech, true],
         (err, results) => {
             if (err)
                 return res.render('error', { error: err })
