@@ -77,48 +77,48 @@ router.post('/bill/submit', (req, res) => {
                 return res.render('error', { error: error })
             })
         })
-    }
-
-    let queryString, placeholders
-
-    if (amendments) {
-        queryString = 'UPDATE bills SET title = ?, text = ?, opening_speech = ?, closing_date = ?, amendment_text = ?, last_is_submitted = ? WHERE id = ?'
-        placeholders = [title, text, opening_speech, closing_date, amendments, true, id]
     } else {
-        queryString = 'UPDATE bills SET title = ?, text = ?, opening_speech = ?, closing_date = ?, last_is_submitted = ? WHERE id = ?'
-        placeholders = [title, text, opening_speech, closing_date, true, id]
-    }
+        let queryString, placeholders
 
-    database.query(queryString, placeholders, (err, results) => {
-        if (err)
-            return res.render('error', { error: err })
-        if (posting_disabled || !stage.post_to)
-            return res.redirect('/bills')
-
-        const r = new snoowrap({
-            userAgent: CREDENTIALS.REDDIT.userAgent,
-            accessToken: req.user.token
-        })
-
-        const post_title = `${id} - ${title} - ${stage.title}`
-        const post_body = renderText(stage.format, { bill_title: title, bill_text: text, closing_date: closing_date, timezone: 'BST', amendment_text: amendments, opening_speech: opening_speech })
-
-        r.getSubreddit(stage.post_to).submitSelfpost({ title: post_title, text: post_body })
-
-        if (wiki_post_at.includes(stage.key)) {
-            r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}`).edit({ text: WIKI_INDEX_FORMAT.replace(stage.title, `[${stage.title}](https://reddit.com/r/lilyirl/wiki/bills/term_${CREDENTIALS.TERM}/${id}/${stage.key})`) }),
-            r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}/${stage.key}`).edit({ text: renderText(WIKI_POST_FORMAT, { bill_title: title, bill_text: text, opening_speech: opening_speech }) })
-        }
-
-        if (stage.final) {
-            database.query('DELETE FROM bills WHERE id = ?', [id], (error, success) => {
-                if (error) return res.render('error', { error: error })
-                return res.redirect('/bills')
-            })
+        if (amendments) {
+            queryString = 'UPDATE bills SET title = ?, text = ?, opening_speech = ?, closing_date = ?, amendment_text = ?, last_is_submitted = ? WHERE id = ?'
+            placeholders = [title, text, opening_speech, closing_date, amendments, true, id]
         } else {
-            return res.redirect('/bills')
+            queryString = 'UPDATE bills SET title = ?, text = ?, opening_speech = ?, closing_date = ?, last_is_submitted = ? WHERE id = ?'
+            placeholders = [title, text, opening_speech, closing_date, true, id]
         }
-    })
+
+        database.query(queryString, placeholders, (err, results) => {
+            if (err)
+                return res.render('error', { error: err })
+            if (posting_disabled || !stage.post_to)
+                return res.redirect('/bills')
+
+            const r = new snoowrap({
+                userAgent: CREDENTIALS.REDDIT.userAgent,
+                accessToken: req.user.token
+            })
+
+            const post_title = `${id} - ${title} - ${stage.title}`
+            const post_body = renderText(stage.format, { bill_title: title, bill_text: text, closing_date: closing_date, timezone: 'BST', amendment_text: amendments, opening_speech: opening_speech })
+
+            r.getSubreddit(stage.post_to).submitSelfpost({ title: post_title, text: post_body })
+
+            if (wiki_post_at.includes(stage.key)) {
+                r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}`).edit({ text: WIKI_INDEX_FORMAT.replace(stage.title, `[${stage.title}](https://reddit.com/r/lilyirl/wiki/bills/term_${CREDENTIALS.TERM}/${id}/${stage.key})`) }),
+                r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}/${stage.key}`).edit({ text: renderText(WIKI_POST_FORMAT, { bill_title: title, bill_text: text, opening_speech: opening_speech }) })
+            }
+
+            if (stage.final) {
+                database.query('DELETE FROM bills WHERE id = ?', [id], (error, success) => {
+                    if (error) return res.render('error', { error: error })
+                    return res.redirect('/bills')
+                })
+            } else {
+                return res.redirect('/bills')
+            }
+        })
+    }
 })
 
 router.post('/bill/progress', (req, res) => {
