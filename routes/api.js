@@ -43,7 +43,6 @@ const WIKI_INDEX_FORMAT = `
 * 3rd Reading`
 
 router.post('/bill/submit', (req, res) => {
-    console.log(req.body)
     const id = req.body['bill-num']
     const title = req.body['bill-title']
     const stage = STAGES[req.body['bill-stage']]
@@ -71,7 +70,7 @@ router.post('/bill/submit', (req, res) => {
 
             Promise.all([
                 r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}`).edit({ text: WIKI_INDEX_FORMAT.replace('1st Reading', `[1st Reading](https://reddit.com/r/lilyirl/wiki/bills/term_${CREDENTIALS.TERM}/${id}/first_reading)`) }),
-                r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}/first_reading`).edit({ text: renderText(WIKI_FORMAT, { bill_title: title, bill_text: text, opening_speech: opening_speech }) })
+                r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}/first_reading`).edit({ text: renderText(WIKI_POST_FORMAT, { bill_title: title, bill_text: text, opening_speech: opening_speech }) })
             ]).then(success => {
                 return res.redirect('/bills')
             }).catch(error => {
@@ -108,7 +107,7 @@ router.post('/bill/submit', (req, res) => {
 
         if (wiki_post_at.includes(stage.key)) {
             r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}`).edit({ text: WIKI_INDEX_FORMAT.replace(stage.title, `[${stage.title}](https://reddit.com/r/lilyirl/wiki/bills/term_${CREDENTIALS.TERM}/${id}/${stage.key})`) }),
-            r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}/${stage.key}`).edit({ text: renderText(WIKI_FORMAT, { bill_title: title, bill_text: text, opening_speech: opening_speech }) })
+            r.getSubreddit('lilyirl').getWikiPage(`bills/term_${CREDENTIALS.TERM}/${id}/${stage.key}`).edit({ text: renderText(WIKI_POST_FORMAT, { bill_title: title, bill_text: text, opening_speech: opening_speech }) })
         }
 
         if (stage.final) {
