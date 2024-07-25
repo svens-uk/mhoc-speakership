@@ -215,6 +215,7 @@ This division ends {{ closing_date }} at 10pm {{ timezone }}.
 Vote Aye, No, or Abstain.`
     },
     pass: {
+        key: 'pass',
         title: 'Royal Assent',
         post_to: 'mhoc',
         final: true,
@@ -227,10 +228,12 @@ Vote Aye, No, or Abstain.`
 {{ bill_text }}`
     },
     fail: {
+        key: 'fail',
         title: 'Bill Failed',
         final: true
     },
     withdrawn: {
+        key: 'withdrawn',
         title: 'Notice of Withdrawal',
         final: true,
         post_to: 'mhoc',
