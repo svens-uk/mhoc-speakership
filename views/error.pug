@@ -1,5 +1,8 @@
 extends layout 
 
 block content
-    h1 An error occurred
-    pre= error || 'An unknown error occurred. Please try again later.'
+    .jumbotron.bg-warning
+        h1 We ran into a problem
+        h2 An error occurred
+    .container-fluid
+        pre= error || 'An unknown error occurred. Please try again later.'

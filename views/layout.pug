@@ -7,6 +7,17 @@ html(lang='en')
         link(rel='stylesheet', href='/css/bootstrap/bootstrap.min.css')
         link(rel='stylesheet', href='/css/icons/bootstrap-icons.min.css')
     body
-        .container-sm.mt-3
+        .container-fluid.h-100.p-0
+            nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.sticky-top
+                a(href='/').navbar-brand MHoC Speakership
+                button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarContent')
+                    span.navbar-toggler-icon
+                #navbarContent.collapse.navbar-collapse
+                    ul.navbar-nav.mr-auto
+                        li.nav-item
+                            a(href='/bills').nav-link Bills
+                        li.nav-item
+                            a(href='/bills/new').nav-link Add New
+                        
             block content
         script(src='/js/bootstrap/bootstrap.bundle.min.js')

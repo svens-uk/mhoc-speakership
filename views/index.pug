@@ -1,13 +1,28 @@
 extends layout 
 
 block content 
-    .container
-        h1.display-1.text-center MHoC Speakership Website
+    .jumbotron
+        h1 MHoC Speakership Website
+        p This website formats and posts bills to #[a(href='https://reddit.com/r/mhoc') /r/MHoC]. Please contact lily-irl with any questions.
     
-    .container.text-center.mt-5
-        .row.mb-3
-            .col
-                a(href='/bills').btn.btn-primary Current business
-        .row
-            .col
-                a(href='/bills/new').btn.btn-primary Add new legislation
+    .container-fluid.text-center.mt-5
+        .row.justify-content-center.mb-3
+            .col-sm-3
+            .col-sm-3
+                a(href='/bills').btn.btn-outline-primary.btn-lg.btn-block Current business
+            .col-sm-3
+        .row.justify-content-center.mb-3
+            .col-sm-3
+            .col-sm-3
+                a(href='/bills/new').btn.btn-outline-primary.btn-lg.btn-block Add new legislation
+            .col-sm-3
+        .row.justify-content-center.mb-3
+            .col-sm-3
+            .col-sm-3
+                a(href='https://docs.google.com/spreadsheets/d/1IkxpdoYgJXJuG53xp2GSx1TErLTXBGmrbipxbMrfDb4/edit?gid=2104046124#gid=2104046124').btn.btn-outline-success.btn-lg.btn-block Mastersheet
+            .col-sm-3
+        .row.justify-content-center.mb-3
+            .col-sm-3
+            .col-sm-3
+                a(href='https://reddit.com/r/mhoc').btn.btn-outline-danger.btn-lg.btn-block Back to reddit
+            .col-sm-3

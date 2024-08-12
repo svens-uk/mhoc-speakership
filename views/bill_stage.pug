@@ -1,7 +1,9 @@
 extends layout 
 
 block content
-    h1 #{bill.id} at #{stage.title}
+    .jumbotron.bg-primary
+        h1 Bill progress
+        h2 #{bill.id} at #{stage.title}
     div(hidden=true)
         textarea(readonly=true)#format-text= stage.format
     div(hidden=true)
