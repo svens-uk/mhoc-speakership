@@ -18,7 +18,7 @@
   "homepage": "https://github.com/lily-irl/mhoc-speakership#readme",
   "dependencies": {
     "axios": "^1.7.2",
-    "bootstrap": "^5.3.3",
+    "bootstrap": "^4.6.2",
     "bootstrap-icons": "^1.11.3",
     "dompurify": "^3.1.6",
     "express": "^4.19.2",
