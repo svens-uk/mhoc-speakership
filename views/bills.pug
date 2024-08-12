@@ -4,9 +4,10 @@ block content
     .jumbotron.bg-success.mb-5.text-white
         h1 Bills before the House
         p Bills that receive Royal Assent, fail at division, or are withdrawn are automatically removed from the website
-    ul
-        each bill in bills
-            if bill.submitted
-                li #[span.badge.text-bg-secondary Posted] #[a(href='/bills/' + bill.id)= bill.id + ' - ' + bill.title + ' @ ' + bill.stage_name]
-            else 
-                li #[span.badge.text-bg-success Ready] #[a(href='/bills/' + bill.id)= bill.id + ' - ' + bill.title + ' @ ' + bill.stage_name]
+    .container
+        ul
+            each bill in bills
+                if bill.submitted
+                    li #[span.badge.badge-secondary Posted] #[a(href='/bills/' + bill.id)= bill.id + ' - ' + bill.title + ' @ ' + bill.stage_name]
+                else 
+                    li #[span.badge.badge-success Ready] #[a(href='/bills/' + bill.id)= bill.id + ' - ' + bill.title + ' @ ' + bill.stage_name]

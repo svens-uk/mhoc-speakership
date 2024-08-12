@@ -7,6 +7,7 @@ block content
             textarea(disabled=true)#format-text= stage.format
         div(hidden=true)
             input(disabled=true, value='BST')#timezone
+    .container
         .row.g-4
             .col-6
                 form(action='/api/bill/submit', method='POST')
