@@ -45,7 +45,7 @@ module.exports = {
     },
     second_reading_vote: {
         key: 'second_reading_vote',
-        title: '2nd Reading Vote',
+        title: '2nd Reading Division',
         post_to: 'mhocmp',
         options: [
             'pass',
@@ -111,7 +111,7 @@ The Committee of the Whole House shall now proceed to consider the following Bil
     },
     amendment_reading: {
         key: 'amendment_reading',
-        title: 'Amendment Reading',
+        title: 'Report Stage',
         post_to: 'mhoc',
         options: [
             'amendment_vote',
@@ -139,7 +139,7 @@ The Committee of the Whole House shall now proceed to consider the following Bil
     },
     amendment_vote: {
         key: 'amendment_vote',
-        title: 'Amendment Vote',
+        title: 'Report Division',
         post_to: 'mhocmp',
         options: [
             'third_reading',
@@ -189,7 +189,7 @@ Vote Aye, No, or Abstain to each amendment.`
     },
     third_reading_vote: {
         key: 'third_reading_vote',
-        title: '3rd Reading Vote',
+        title: '3rd Reading Division',
         post_to: 'mhocmp',
         options: [
             'pass',
