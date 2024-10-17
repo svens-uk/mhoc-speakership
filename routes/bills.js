@@ -47,7 +47,7 @@ router.get('/:id', (req, res) => {
         const progress = []
         let closingDate = new Date()
 
-        closingDate.setUTCDate(closingDate.getUTCDate() + 3)
+        closingDate.setUTCDate(closingDate.getUTCDate() + 5)
 
         if (!stage.final) {
             for (let option of [...stage.options, 'withdrawn'])

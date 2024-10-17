@@ -21,7 +21,7 @@ block content
                         input(type='text', id='bill-title', name='bill-title', value=bill.title, disabled=bill.last_is_submitted).form-control
                         div.form-text Only include the short title, e.g. 'Railways Bill'
                     input(type='hidden', id='bill-stage', name='bill-stage', value=stage.key, readonly=true).form-control
-                    if stage.key === 'amendment_reading' || stage.key === 'amendment_vote' || stage.key === 'third_reading'
+                    if stage.key === 'amendment_vote' || stage.key === 'third_reading'
                         div.mb-3
                             label(for='amendment-text').form-label Amendments moved
                             textarea(id='amendment-text', name='amendment-text', rows=6, disabled=bill.last_is_submitted || stage.key === 'third_reading').form-control

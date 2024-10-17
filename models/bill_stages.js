@@ -21,7 +21,8 @@ module.exports = {
         title: '2nd Reading',
         post_to: 'mhoc',
         options: [
-            'second_reading_vote'
+            'amendment_vote',
+            'third_reading_vote'
         ],
         final: false,
         format: `**Order, order!**
@@ -43,106 +44,13 @@ module.exports = {
 **This reading ends {{ closing_date }} at 10pm {{ timezone }}.**
 `
     },
-    second_reading_vote: {
-        key: 'second_reading_vote',
-        title: '2nd Reading Division',
-        post_to: 'mhocmp',
-        options: [
-            'pass',
-            'fail',
-            'committee',
-            'amendment_reading',
-            'amendment_vote',
-            'third_reading'
-        ],
-        final: false,
-        format: `The question is that the bill be now read a second time.
-        
-**Division! Clear the lobby.**
-
-***
-
-# {{ bill_title }}
-
-***
-
-{{ bill_text }}
-
-***
-
-{{ opening_speech }}
-
-***
-
-**This division ends {{ closing_date }} at 10pm {{ timezone }}.**
-
-Vote Aye, No, or Abstain.`
-    },
-    committee: {
-        key: 'committee',
-        title: 'Committee Stage',
-        post_to: 'mhoc',
-        options: [
-            'amendment_reading',
-            'amendment_vote',
-            'third_reading',
-            'third_reading_vote'
-        ],
-        final: false,
-        format: `**Order, order!**
-
-The Committee of the Whole House shall now proceed to consider the following Bill:
-
-***
-
-# {{ bill_title }}
-
-***
-
-{{ bill_text }}
-
-***
-
-{{ opening_speech }}
-
-***
-
-**The committee shall consider amendments, or the bill shall proceed if there are none moved, on {{ closing_date }} at 10pm {{ timezone }}.**`
-    },
-    amendment_reading: {
-        key: 'amendment_reading',
-        title: 'Report Stage',
-        post_to: 'mhoc',
-        options: [
-            'amendment_vote',
-            'third_reading'
-        ],
-        final: false,
-        format: `
-**Order, order!**
-
-***
-
-# {{ bill_title }}
-
-***
-
-{{ bill_text }}
-
-***
-
-{{ amendment_text }}
-
-***
-
-**The House shall divide on the amendments on {{ closing_date }} at 10pm {{ timezone }}.**`
-    },
     amendment_vote: {
         key: 'amendment_vote',
         title: 'Report Division',
         post_to: 'mhocmp',
         options: [
             'third_reading',
+            'amendment_vote'
         ],
         final: false,
         format: `
@@ -230,7 +138,15 @@ Vote Aye, No, or Abstain.`
     fail: {
         key: 'fail',
         title: 'Bill Failed',
-        final: true
+        post_to: 'mhoc',
+        final: true,
+        format: `**Order!** I have to notify the House that the following bill has been voted down at division and is therefore thrown out:
+
+# {{ bill_title }}
+
+***
+
+{{ bill_text }}`
     },
     withdrawn: {
         key: 'withdrawn',
@@ -239,6 +155,10 @@ Vote Aye, No, or Abstain.`
         post_to: 'mhoc',
         format: `**Order!** I have to notify the House that the following bill has been withdrawn at the request of its author:
 
-# {{ bill_title }}`
+# {{ bill_title }}
+
+***
+
+{{ bill_text }}`
     }
 }
